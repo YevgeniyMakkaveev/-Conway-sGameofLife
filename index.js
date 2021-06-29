@@ -14,8 +14,8 @@ function createArray(col) {
  }
  return arr;
 }
-const RandomN = (arr, row) => {
- for (let i = 0; i < row; i++) arr[i] = Math.floor(Math.random() * 2);
+const RandomN = (arr) => {
+ for (let i = 0; i < gridWidth; i++) arr[i] = Math.floor(Math.random() * 2);
 }
 
 function updateSreen() { screen.innerHTML = '<ul>' + testArr.map(function (row) {
@@ -81,8 +81,8 @@ const init=()=> {loop= setInterval(tick, 1000)
 }
 
 
-const getFromFile=()=>{
-fetch('test.json')
+const getFromFile=(filename=`data`)=>{
+fetch(`${filename}.json`)
   .then((response) => {
     return response.json()
   })
@@ -94,6 +94,7 @@ fetch('test.json')
     gridWidth=testArr[0].length
     console.log(gridWidth)
     updateSreen()
+    init()
     
   })
   }
@@ -103,19 +104,18 @@ fetch('test.json')
     gridWidth = x
     testArr = createArray(gridHeight)
      changeArr = createArray(gridHeight)
-     testArr.forEach(elem => RandomN(elem, gridWidth))
+     testArr.forEach(elem => RandomN(elem))
      updateSreen()
-     
+     init()
      
   }
 
-console.log(`Для начала работы приложения введите getFromFile() что бы загрузить начальное состояние из файла, или getRandom(x, y) где x это ширина, а y высота  для запуска со случайного состояния
-например getRandom(70, 30)`
+console.log(`Для начала работы приложения введите getFromFile('имя файла') что бы загрузить начальное состояние из файла. По умолчанию оно будет загружено из файла data.json, или getRandom(x, y) где x это ширина, а y высота для запуска со случайно сгенерированного состояния, например getRandom(70, 30)`
 )
 
 
 
-init()
+
 
 
 
