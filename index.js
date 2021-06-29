@@ -1,13 +1,13 @@
-let gridHeight = 40;
-let gridWidth = 40;
+let gridHeight;
+let gridWidth;
 let screen = document.querySelector(`#screen`)
 
 
 let testArr = [];
-let changeArr=[];
+let changeArr = [];
 let loop=0
 
-function createArray(col) { //creates a 2 dimensional array of required height
+function createArray(col) { 
  let arr = [];
  for (let i = 0; i < col; i++) {
   arr[i] = [];
@@ -15,15 +15,38 @@ function createArray(col) { //creates a 2 dimensional array of required height
  return arr;
 }
 
+
+
+
+// const RandomN = (arr, row) => {
+//  for (let i = 0; i < row; i++) arr[i] = Math.floor(Math.random() * 2);
+// }
+
+// testArr.forEach(elem => RandomN(elem, gridWidth))
+ function  getData(){
+fetch('test.json')
+  .then((response) => {
+    return response.json()
+  })
+  .then((data) => {
+    // Work with JSON data here
+    console.log(data)
+    testArr = data
+    changeArr=data
+    gridHeight=testArr.length
+    gridWidth=testArr[0].length
+    console.log(gridWidth)
+  })
+  }
+
+
+
+
 testArr = createArray(gridHeight)
 changeArr = createArray(gridHeight)
 
+getData()
 
-const RandomN = (arr, row) => {
- for (let i = 0; i < row; i++) arr[i] = Math.floor(Math.random() * 2);
-}
-
-testArr.forEach(elem => RandomN(elem, gridWidth))
 
 screen.innerHTML = '<ul>' + testArr.map(function (row) {
   return '<li>' + row + '</li>';
@@ -75,7 +98,7 @@ let y;
          changeArr[y][x] = 0; 
          break;
         default:
-         changeArr[y][x] = 0; //
+         changeArr[y][x] = 0; 
        }
       } 
    }
