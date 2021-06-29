@@ -14,47 +14,14 @@ function createArray(col) {
  }
  return arr;
 }
+const RandomN = (arr, row) => {
+ for (let i = 0; i < row; i++) arr[i] = Math.floor(Math.random() * 2);
+}
 
-
-
-
-// const RandomN = (arr, row) => {
-//  for (let i = 0; i < row; i++) arr[i] = Math.floor(Math.random() * 2);
-// }
-
-// testArr.forEach(elem => RandomN(elem, gridWidth))
- function  getData(){
-fetch('test.json')
-  .then((response) => {
-    return response.json()
-  })
-  .then((data) => {
-    // Work with JSON data here
-    console.log(data)
-    testArr = data
-    changeArr=data
-    gridHeight=testArr.length
-    gridWidth=testArr[0].length
-    console.log(gridWidth)
-  })
-  }
-
-
-
-
-testArr = createArray(gridHeight)
-changeArr = createArray(gridHeight)
-
-getData()
-
-
-screen.innerHTML = '<ul>' + testArr.map(function (row) {
-  return '<li>' + row + '</li>';
-}).join('') + '</ul>';
-
-
-
-
+function updateSreen() { screen.innerHTML = '<ul>' + testArr.map(function (row) {
+  return '<li>' + row.join(' ') + '</li>';
+}).join(' ') + '</ul>';
+}
 
  const updateGrid = ()=>{
 let x;
@@ -69,9 +36,7 @@ let y;
     if(x!=gridWidth-1){neighborCells += testArr[y][x + 1]}
     if(y!=gridHeight-1 && x!=0){ neighborCells += testArr[y+1][x - 1]}
     if(y!=gridHeight-1){neighborCells += testArr[y+1][x]}
-    if(y!=gridHeight-1 && x!=gridWidth-1){neighborCells += testArr[y+1][x+1]}
-    
-
+    if(y!=gridHeight-1 && x!=gridWidth-1){neighborCells += testArr[y+1][x+1]}   
       if (testArr[y][x] === 0) {
        switch (neighborCells) {
         case 3:
@@ -108,23 +73,49 @@ let y;
 const tick =()=>{
   updateGrid()
   testArr=changeArr
- 
-  screen.innerHTML = '<ul>' + testArr.map(function (row) {
-    return '<li>' + row + '</li>';
-  }).join('') + '</ul>';
-  testArr.map(elem=> console.log(elem.toString()))
+  updateSreen()
+  testArr.map(elem=> console.log(elem.join(" ")))
 }
 
-function intit() {loop= setInterval(tick, 1200)
+const init=()=> {loop= setInterval(tick, 1000)
 }
 
-intit()
+
+const getFromFile=()=>{
+fetch('test.json')
+  .then((response) => {
+    return response.json()
+  })
+  .then((data) => {
+    console.log(data)
+    testArr = data
+    changeArr=data
+    gridHeight=testArr.length
+    gridWidth=testArr[0].length
+    console.log(gridWidth)
+    updateSreen()
+    
+  })
+  }
+
+  const getRandom=(x,y)=>{
+    gridHeight = y
+    gridWidth = x
+    testArr = createArray(gridHeight)
+     changeArr = createArray(gridHeight)
+     testArr.forEach(elem => RandomN(elem, gridWidth))
+     updateSreen()
+     
+     
+  }
+
+console.log(`Для начала работы приложения введите getFromFile() что бы загрузить начальное состояние из файла, или getRandom(x, y) где x это ширина, а y высота  для запуска со случайного состояния
+например getRandom(70, 30)`
+)
 
 
-// after.innerHTML = '<ul>' + changeArr.map(function (row) {
-//   return '<li>' + row + '</li>';
-// }).join('') + '</ul>';
 
+init()
 
 
 
