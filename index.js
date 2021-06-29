@@ -18,7 +18,7 @@ const RandomN = (arr) => {
  for (let i = 0; i < gridWidth; i++) arr[i] = Math.floor(Math.random() * 2);
 }
 
-function updateSreen() { screen.innerHTML = '<ul>' + testArr.map(function (row) {
+function updateScreen() { screen.innerHTML = '<ul>' + testArr.map(function (row) {
   return '<li>' + row.join(' ') + '</li>';
 }).join(' ') + '</ul>';
 }
@@ -73,7 +73,7 @@ let y;
 const tick =()=>{
   updateGrid()
   testArr=changeArr
-  updateSreen()
+  updateScreen()
   testArr.map(elem=> console.log(elem.join(" ")))
 }
 
@@ -92,20 +92,19 @@ fetch(`${filename}.json`)
     changeArr=data
     gridHeight=testArr.length
     gridWidth=testArr[0].length
-    console.log(gridWidth)
-    updateSreen()
+    updateScreen()
     init()
     
   })
   }
 
-  const getRandom=(x,y)=>{
+  const getRandom=(x=70,y=30)=>{
     gridHeight = y
     gridWidth = x
     testArr = createArray(gridHeight)
      changeArr = createArray(gridHeight)
      testArr.forEach(elem => RandomN(elem))
-     updateSreen()
+     updateScreen()
      init()
      
   }
